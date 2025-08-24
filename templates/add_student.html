@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoAttend - Add Student</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    
+    <div class="container">
+        <h1>Add New Student</h1>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <div class="card">
+            <div class="card-header">
+                <h2>Student Information</h2>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('add_student') }}" method="post">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="class">Class</label>
+                        <input type="text" id="class" name="class" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="roll_no">Roll Number</label>
+                        <input type="text" id="roll_no" name="roll_no" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mac_address">MAC Address</label>
+                        <input type="text" id="mac_address" name="mac_address" placeholder="e.g. 00:1a:2b:3c:4d:5e" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Student</button>
+                        <a href="{{ url_for('students') }}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

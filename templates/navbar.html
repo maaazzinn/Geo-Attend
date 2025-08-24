@@ -1,0 +1,14 @@
+<nav class="navbar">
+    <div class="logo">
+        <h1>GeoAttend</h1>
+    </div>
+    <ul class="nav-links">
+        <li><a href="{{ url_for('dashboard') }}" {% if request.path == url_for('dashboard') %}class="active"{% endif %}>Dashboard</a></li>
+        <li><a href="{{ url_for('students') }}" {% if request.path == url_for('students') %}class="active"{% endif %}>Students</a></li>
+        <li><a href="{{ url_for('history') }}" {% if request.path == url_for('history') %}class="active"{% endif %}>History</a></li>
+        <li class="user-info">
+            <span>Welcome, {{ session.username }}</span>
+            <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+        </li>
+    </ul>
+</nav>

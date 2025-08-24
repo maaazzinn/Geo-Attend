@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoAttend - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        {% include 'navbar.html' %}
+        
+        <div class="main-content">
+            <h1>Dashboard</h1>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <div class="dashboard-cards">
+                <div class="card">
+                    <h2>Take Attendance</h2>
+                    <form id="attendance-form">
+                        <div class="form-group">
+                            <label for="class">Select Class:</label>
+                            <select id="class" name="class" required>
+                                <option value="">Select Class</option>
+                                {% for class in classes %}
+                                <option value="{{ class }}">{{ class }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject:</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" id="start-attendance" class="btn-primary">Start Attendance</button>
+                            <button type="button" id="scan-devices" class="btn-secondary">Scan Devices</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="card">
+                    <h2>Today's Summary</h2>
+                    <p><strong>Date:</strong> {{ today }}</p>
+                    
+                    {% if attendance_summary %}
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Class</th>
+                                    <th>Subject</th>
+                                    <th>Present</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for class, subject, count in attendance_summary %}
+                                <tr>
+                                    <td>{{ class }}</td>
+                                    <td>{{ subject }}</td>
+                                    <td>{{ count }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>No attendance records for today.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div id="result-section" style="display: none;">
+                <h2>Attendance Results</h2>
+                <div id="result-container">
+                    <table class="data-table" id="result-table">
+                        <thead>
+                            <tr>
+                                <th>Roll No</th>
+                                <th>Name</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="result-body">
+                            <!-- Results will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div id="devices-section" style="display: none;">
+                <h2>Connected Devices</h2>
+                <div id="devices-container">
+                    <table class="data-table" id="devices-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>MAC Address</th>
+                            </tr>
+                        </thead>
+                        <tbody id="devices-body">
+                            <!-- Devices will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
